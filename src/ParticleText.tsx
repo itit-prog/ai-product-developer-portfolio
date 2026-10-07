@@ -89,7 +89,8 @@ export default function ParticleText({
     let settleTimer = 0;
     let reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     let particles: Particle[] = [];
-    const pointer = { x: 0, y: 0, smoothX: 0, smoothY: 0, active: false };
+    const pointer = { x: 0, y: 0, active: false };
+    const pointerFine = window.matchMedia?.('(hover: hover) and (pointer: fine)').matches ?? true;
     const baseColor = parseHex(color) ?? [255, 255, 255];
     const accentColor = parseHex(highlightColor) ?? baseColor;
 
@@ -169,8 +170,6 @@ export default function ParticleText({
       container.classList.add('is-ready');
       pointer.x = width / 2;
       pointer.y = height / 2;
-      pointer.smoothX = pointer.x;
-      pointer.smoothY = pointer.y;
       gatherStart = performance.now();
       gathering = !reducedMotion;
       settled = reducedMotion;
@@ -191,8 +190,6 @@ export default function ParticleText({
       ctx.clearRect(0, 0, width, height);
       ctx.shadowBlur = glow && !reducedMotion ? particleSize * 3 : 0;
       ctx.shadowColor = highlightColor;
-      pointer.smoothX += (pointer.x - pointer.smoothX) * 0.16;
-      pointer.smoothY += (pointer.y - pointer.smoothY) * 0.16;
       let complete = true;
       particles.forEach((particle) => {
         let x = particle.targetX;
@@ -208,9 +205,9 @@ export default function ParticleText({
           x += Math.sin(now * 0.0009 + particle.seed * 10) * idleDrift * particle.depth;
           y += Math.cos(now * 0.0007 + particle.depth * 10) * idleDrift * particle.depth;
         }
-        if (pointer.active && !reducedMotion) {
-          const dx = x - pointer.smoothX;
-          const dy = y - pointer.smoothY;
+        if (pointer.active && pointerFine && !reducedMotion) {
+          const dx = x - pointer.x;
+          const dy = y - pointer.y;
           const distance = Math.hypot(dx, dy);
           if (distance > 0 && distance < repelRadius) {
             const force = Math.pow(1 - distance / repelRadius, 2) * pointerRepel;
@@ -234,6 +231,7 @@ export default function ParticleText({
 
     const loop = createCanvasLoop(container, render);
     const onMove = (event: PointerEvent) => {
+      if (!pointerFine) return;
       const rect = canvas.getBoundingClientRect();
       pointer.x = event.clientX - rect.left;
       pointer.y = event.clientY - rect.top;
@@ -244,6 +242,7 @@ export default function ParticleText({
       loop.invalidate();
     };
     const onLeave = () => {
+      if (!pointerFine) return;
       pointer.active = false;
       if (!gathering && !reducedMotion) {
         settled = true;

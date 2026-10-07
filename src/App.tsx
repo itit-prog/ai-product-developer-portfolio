@@ -85,7 +85,19 @@ export default function App() {
           <section className="section services" id="services">
             <div className="section-head">
               <span className="section-kicker">01 / КОМПЕТЕНЦИИ</span>
-              <ParticleText text="Собираю сложное" fontFamily="'Inter', sans-serif" align="left" className="particle-heading" />
+              <ParticleText
+                text="Собираю сложное"
+                fontSize="clamp(2.4rem, 5.4vw, 5rem)"
+                fontWeight={700}
+                fontFamily="'Inter', sans-serif"
+                particleSize={2.2}
+                density={3}
+                pointerRepel={22}
+                repelRadius={92}
+                idleDrift={0.25}
+                align="left"
+                className="particle-heading"
+              />
               <h2 className="services-subtitle"><span>в рабочий результат</span></h2>
               <p>Разбираюсь в задаче, проектирую сценарии и пишу код, который можно поддерживать.</p>
             </div>
