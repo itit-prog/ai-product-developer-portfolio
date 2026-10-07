@@ -85,6 +85,7 @@ export default function ParticleText({
     let gatherStart = 0;
     let gathering = false;
     let settled = false;
+    let ready = false;
     let settleTimer = 0;
     let reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     let particles: Particle[] = [];
@@ -106,6 +107,8 @@ export default function ParticleText({
     const buildParticles = async () => {
       const currentBuild = ++buildId;
       window.clearTimeout(settleTimer);
+      ready = false;
+      container.classList.remove('is-ready', 'is-interacting');
       settled = reducedMotion;
       container.classList.toggle('is-settled', settled);
       container.classList.remove('is-interacting');
@@ -162,6 +165,8 @@ export default function ParticleText({
         const startY = target.y + Math.sin(angle) * distance + (depth - 0.9) * scatter * 0.45;
         return { x: reducedMotion ? target.x : startX, y: reducedMotion ? target.y : startY, startX, startY, targetX: target.x, targetY: target.y, size: Math.max(0.7, particleSize * (0.72 + target.alpha * 0.5)), color: mixColor(baseColor, accentColor, clamp(target.x / Math.max(1, width) + (seed - 0.5) * 0.35, 0, 1)), seed, depth, delay: reducedMotion ? 0 : seed * stagger };
       });
+      ready = true;
+      container.classList.add('is-ready');
       pointer.x = width / 2;
       pointer.y = height / 2;
       pointer.smoothX = pointer.x;
@@ -235,7 +240,7 @@ export default function ParticleText({
       pointer.active = true;
       settled = false;
       container.classList.remove('is-settled');
-      container.classList.add('is-interacting');
+      if (ready) container.classList.add('is-interacting');
       loop.invalidate();
     };
     const onLeave = () => {

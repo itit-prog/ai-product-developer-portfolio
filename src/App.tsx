@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowUpRight, BrainCircuit, Check, Code2, Mail, Menu, MessageCircle, Send, Sparkles, Workflow, X } from 'lucide-react'
+import { ArrowUpRight, BrainCircuit, Check, Code2, Mail, MessageCircle, Send, Sparkles, Workflow } from 'lucide-react'
 import { lazy, Suspense, useEffect, useState, type FormEvent } from 'react'
 import ClickSpark from './ClickSpark'
 import './planet.css'
@@ -9,6 +9,7 @@ import ParticleText from './ParticleText'
 import MiniGame from './MiniGame'
 import useProjectViewport from './useProjectViewport'
 import NoirPage from './NoirPage'
+import { MenuToggleIcon } from './components/ui/menu-toggle-icon'
 
 const Planet = lazy(() => import('./Planet'))
 
@@ -27,7 +28,7 @@ function Icon({ type }: { type: string }) {
 }
 
 export default function App() {
-  const [open, setOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const [route, setRoute] = useState(window.location.hash)
   const [pathname, setPathname] = useState(window.location.pathname)
 
@@ -67,26 +68,18 @@ export default function App() {
   return (
     <ClickSpark>
       <div className="site">
-        <header className="nav">
-          <a className="brand" href="#top"><span className="brand-mark">/</span><span>PD<span className="muted">.DEV</span></span></a>
-          <nav className={open ? 'nav-links open' : 'nav-links'}>
-            {['Услуги', 'Обо мне', 'Контакты'].map((item, index) => <a key={item} href={['#services', '#about', '#contact'][index]} onClick={() => setOpen(false)}>{item}</a>)}
-          </nav>
-          <a className="nav-cta" href="#contact">Обсудить проект <ArrowUpRight size={15} /></a>
-          <button className="menu" onClick={() => setOpen(!open)} aria-label="Меню">{open ? <X /> : <Menu />}</button>
-        </header>
-
         <main id="top">
           <section className="hero">
+            <button className="menu hero-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Закрыть меню' : 'Открыть меню'} aria-expanded={menuOpen} aria-controls="hero-menu"><MenuToggleIcon open={menuOpen} duration={500} /></button>
+            <nav className={`hero-menu-panel${menuOpen ? ' is-open' : ''}`} id="hero-menu" aria-label="Основная навигация" aria-hidden={!menuOpen}>{['Услуги', 'Обо мне', 'Контакты'].map((item, index) => <a key={item} href={['#services', '#about', '#contact'][index]} onClick={() => setMenuOpen(false)}>{item}</a>)}</nav>
             <LineWaves />
             <div className="hero-glow" />
             <div className="hero-content">
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="eyebrow"><span className="status-dot" /> WEB DEVELOPER <span>·</span> МОСКВА / REMOTE</motion.div>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="eyebrow"><span className="status-dot" /> WEB DEVELOPER</motion.div>
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>Создаю сайты и<br /><em>сервисы</em> для бизнеса</motion.h1>
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}>Собираю сайты, веб-приложения<br className="desktop" /> и автоматизацию под конкретную задачу.</motion.p>
               <div className="hero-actions"><a className="button primary" href="#about">Узнать больше <ArrowUpRight size={17} /></a><a className="button ghost" href="#contact">Связаться <Mail size={16} /></a></div>
             </div>
-            <div className="hero-meta"><span>01 / 04</span><span className="scroll-line" /><span>SCROLL TO EXPLORE</span></div>
           </section>
 
           <section className="section services" id="services">

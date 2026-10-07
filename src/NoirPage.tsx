@@ -37,7 +37,6 @@ export default function NoirPage({ onBack }: { onBack: () => void }) {
             <NoirHeroShader />
             <div className="noir-shader-wash" />
           </div>
-          <span className="noir-scroll">SCROLL TO EXPLORE <span /></span>
         </section>
 
         <section className="noir-studio noir-container" id="noir-studio">
