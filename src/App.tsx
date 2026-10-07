@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowUpRight, BrainCircuit, Check, Code2, Mail, Menu, MessageCircle, Send, Sparkles, Workflow, X } from 'lucide-react'
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState, type FormEvent } from 'react'
 import ClickSpark from './ClickSpark'
 import './planet.css'
 import LineWaves from './LineWaves'
@@ -50,6 +50,17 @@ export default function App() {
   }, [route, isNoir])
 
   useProjectViewport(!isNoir)
+
+  const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    const message = [
+      `Имя: ${data.get('name') || 'не указано'}`,
+      `Email: ${data.get('email') || 'не указано'}`,
+      `Задача: ${data.get('project') || 'не указана'}`,
+    ].join('\n')
+    window.open(`https://t.me/Vetrikzz?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer')
+  }
 
   if (isNoir) return <NoirPage onBack={() => { window.location.href = '/#top' }} />
 
@@ -109,7 +120,7 @@ export default function App() {
           <section className="contact" id="contact">
             <div className="contact-inner">
               <div><span className="section-kicker">05 / КОНТАКТЫ</span><h2>Есть идея?<br /><em>Давайте обсудим</em></h2><p>Опишите задачу. Я отвечу в течение одного рабочего дня.</p><div className="contact-links"><a href="mailto:starsbs1607@gmail.com"><Mail size={17} /> starsbs1607@gmail.com</a><a href="https://t.me/Vetrikzz" target="_blank" rel="noreferrer"><MessageCircle size={17} /> Telegram</a></div></div>
-              <form onSubmit={(event) => { event.preventDefault(); window.location.href = 'https://t.me/Vetrikzz' }}><label>Ваше имя<input placeholder="Как к вам обращаться?" /></label><label>Email<input type="email" placeholder="you@company.com" /></label><label>Расскажите о проекте<textarea placeholder="Коротко опишите задачу" rows={4} /></label><button className="button primary" type="submit">Написать в Telegram <Send size={16} /></button></form>
+              <form onSubmit={handleContactSubmit}><label>Ваше имя<input name="name" placeholder="Как к вам обращаться?" /></label><label>Email<input name="email" type="email" placeholder="you@company.com" /></label><label>Расскажите о проекте<textarea name="project" placeholder="Коротко опишите задачу" rows={4} /></label><button className="button primary" type="submit">Написать в Telegram <Send size={16} /></button></form>
             </div>
           </section>
         </main>
