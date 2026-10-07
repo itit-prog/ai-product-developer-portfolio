@@ -90,6 +90,8 @@ export default function App() {
                 fontSize="clamp(2.4rem, 5.4vw, 5rem)"
                 fontWeight={700}
                 fontFamily="'Inter', sans-serif"
+                color="#6de0ff"
+                highlightColor="#6de0ff"
                 particleSize={2.2}
                 density={3}
                 pointerRepel={22}
