@@ -1,3 +1,9 @@
 .vercel
 node_modules
 dist
+/animation.txt
+/case-check.png
+/home-check.png
+/mobile-case-check.png
+/mobile-home-check.png
+/tsconfig.app.tsbuildinfo
