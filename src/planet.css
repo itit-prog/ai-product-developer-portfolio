@@ -1,0 +1,59 @@
+.section.about {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 6%;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+.about .about-visual { height: auto; min-width: 0; }
+.about .about-copy { min-width: 0; }
+.about .about-copy h2 { font-size: 64px; letter-spacing: 0; }
+.planet { position: relative; width: 100%; max-width: 740px; margin-inline: auto; }
+.planet-stage { position: relative; width: 100%; aspect-ratio: 1; }
+.planet-stage canvas { display: block; width: 100%; height: 100%; cursor: grab; outline-offset: -8px; }
+.planet-stage canvas:active { cursor: grabbing; }
+.planet-stage canvas:focus-visible { outline: 1px solid var(--cyan); border-radius: 50%; }
+.planet-controls { display: flex; justify-content: center; gap: 8px; margin-top: -12px; position: relative; }
+.planet-controls button, .planet-error button {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(109, 224, 255, .14);
+  border-radius: 50%;
+  background: transparent;
+  color: #91a4ad;
+  cursor: pointer;
+  transition: color .2s, border-color .2s, background .2s;
+}
+.planet-controls button:hover:not(:disabled), .planet-controls button:focus-visible, .planet-error button:hover {
+  color: var(--cyan);
+  border-color: rgba(109, 224, 255, .55);
+  background: rgba(109, 224, 255, .04);
+}
+.planet-controls button:disabled { opacity: .3; cursor: default; }
+.planet-loading, .planet-error { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--cyan); pointer-events: none; }
+.planet-loading svg { animation: planet-loading 1.4s linear infinite; }
+.planet-error { color: #9aa7b0; font-size: 13px; }
+.planet-error button { pointer-events: auto; }
+.planet[data-status='error'] canvas { visibility: hidden; }
+@keyframes planet-loading { to { transform: rotate(360deg); } }
+@media (max-width: 1450px) {
+  .about .about-copy h2 { font-size: 48px; }
+}
+@media (max-width: 1050px) {
+  .about .about-copy h2 { font-size: 40px; }
+}
+@media (max-width: 850px) {
+  .section.about { grid-template-columns: minmax(0, 1fr); gap: 44px; padding-top: 72px; padding-bottom: 80px; }
+  .about .about-visual { width: 100%; max-width: 520px; justify-self: center; }
+  .about .about-copy { width: 100%; max-width: 560px; justify-self: center; }
+  .planet-controls { margin-top: 0; }
+  .planet-controls button { width: 42px; height: 42px; }
+}
+@media (max-width: 420px) {
+  .about .about-copy h2 { font-size: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .planet-loading svg { animation: none; }
+  .planet-controls button { transition: none; }
+}
