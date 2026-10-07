@@ -233,7 +233,7 @@ export default function ParticleText({
 
     const loop = createCanvasLoop(container, render);
     const onMove = (event: PointerEvent) => {
-      if (!pointerFine) return;
+      if (!pointerFine || pointerRepel <= 0) return;
       const rect = canvas.getBoundingClientRect();
       pointer.x = event.clientX - rect.left;
       pointer.y = event.clientY - rect.top;
@@ -244,7 +244,7 @@ export default function ParticleText({
       loop.invalidate();
     };
     const onLeave = () => {
-      if (!pointerFine) return;
+      if (!pointerFine || pointerRepel <= 0) return;
       pointer.active = false;
       if (!gathering && !reducedMotion) {
         settled = true;

@@ -94,9 +94,9 @@ export default function App() {
                 highlightColor="#6de0ff"
                 particleSize={2.2}
                 density={3}
-                pointerRepel={22}
+                pointerRepel={0}
                 repelRadius={92}
-                idleDrift={0.25}
+                idleDrift={0}
                 align="left"
                 className="particle-heading"
               />
