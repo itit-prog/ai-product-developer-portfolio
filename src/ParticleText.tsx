@@ -180,6 +180,7 @@ export default function ParticleText({
           gathering = false;
           settled = true;
           container.classList.add('is-settled');
+          container.classList.remove('is-interacting');
           loop.invalidate();
         }, gatherDuration + stagger + 120);
       }
@@ -225,6 +226,7 @@ export default function ParticleText({
         gathering = false;
         settled = true;
         container.classList.add('is-settled');
+        if (!pointer.active) container.classList.remove('is-interacting');
       }
       return !reducedMotion && (!settled || pointer.active);
     };
