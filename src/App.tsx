@@ -5,7 +5,7 @@ import ClickSpark from './ClickSpark'
 import './planet.css'
 import LineWaves from './LineWaves'
 import MagicCard from './MagicCard'
-import ParticleText from './ParticleText'
+import { MorphingText } from './components/ui/morphing-text'
 import MiniGame from './MiniGame'
 import useProjectViewport from './useProjectViewport'
 import NoirPage from './NoirPage'
@@ -19,6 +19,8 @@ const services = [
   ['03', 'Автоматизация', 'Убираю ручные шаги и связываю сервисы вокруг вашего процесса.', 'auto'],
   ['04', 'UI / UX', 'Прорабатываю интерфейс до деталей: иерархия, ритм и состояния.', 'ux'],
 ] as const
+
+const competencyPhrases = ['Собираю сложное', 'Пишу рабочий код', 'Создаю продукты']
 
 function Icon({ type }: { type: string }) {
   if (type === 'product') return <BrainCircuit />
@@ -85,21 +87,7 @@ export default function App() {
           <section className="section services" id="services">
             <div className="section-head">
               <span className="section-kicker">01 / КОМПЕТЕНЦИИ</span>
-              <ParticleText
-                text="Собираю сложное"
-                fontSize="clamp(2.4rem, 5.4vw, 5rem)"
-                fontWeight={700}
-                fontFamily="'Inter', sans-serif"
-                color="#6de0ff"
-                highlightColor="#6de0ff"
-                particleSize={2.2}
-                density={3}
-                pointerRepel={0}
-                repelRadius={92}
-                idleDrift={0}
-                align="left"
-                className="particle-heading"
-              />
+              <MorphingText texts={competencyPhrases} className="morphing-heading" />
               <h2 className="services-subtitle"><span>в рабочий результат</span></h2>
               <p>Разбираюсь в задаче, проектирую сценарии и пишу код, который можно поддерживать.</p>
             </div>
